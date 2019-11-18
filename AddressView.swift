@@ -10,6 +10,14 @@ import SwiftUI
 
 struct AddressView: View {
     @ObservedObject var order: Order
+    
+    var hasInvalidAddress: Bool {
+        if order.name.isEmpty || order.Address.isEmpty || order.city.isEmpty || order.zip.isEmpty {
+            return true
+        }
+        
+       return false
+    }
 
     var body: some View {
         Form{
@@ -31,6 +39,7 @@ struct AddressView: View {
                     Text("Check out")
                 }
             }
+        .disabled(hasInvalidAddress)
             
         }
         .navigationBarTitle("Order Details" , displayMode: .inline)
