@@ -9,28 +9,41 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var username = ""
-    @State var password = ""
-    var disableForm: Bool {
-        username.isEmpty || password.isEmpty
-    }
+@ObservedObject var order = Order()
     
     var body: some View {
-        Form{
-            Section(header: Text("Username")){
-                TextField("Enter username", text: $username)
-            }
-            Section(header: Text("Password")){
-                TextField("Enter password", text: $password)
-            }
-            Section{
-                Button(action:{
-                    print("Creating Account....")
-                }){
-                    Text("Create Account")
+        NavigationView{
+            Form{
+                Section{
+                    Picker(selection:$order.type, label: Text("Select flavor")) {
+                        ForEach(0..<Order.types.count){
+                            Text("\(Order.types[$0])")
+                        }
+                    }
+                .pickerStyle(SegmentedPickerStyle())
+                    
+                    Stepper(value: $order.quantity, in: 3...20) {
+                        Text("Number of cakes: \(order.quantity)")
+                    }
                 }
+                
+                Section{
+                    Toggle(isOn: $order.specialRequestEnabled.animation()) {
+                        Text("Any special requests?")
+                    }
+                    if order.specialRequestEnabled{
+                        Toggle(isOn: $order.addSprinkles) {
+                            Text("Add Sprinkles?")
+                        }
+                        Toggle(isOn: $order.extraFrosting) {
+                            Text("Add extra Frosting?")
+                        }
+                    }
+                    
+                }
+                
             }
-            .disabled(self.disableForm)
+        .navigationBarTitle("Cupcake Corner")
         }
         
     }
