@@ -15,7 +15,7 @@ struct ContentView: View {
         NavigationView{
             Form{
                 Section{
-                    Picker(selection:$order.type, label: Text("Select flavor")) {
+                    Picker(selection: $order.type, label: Text("Select flavor")) {
                         ForEach(0..<Order.types.count){
                             Text("\(Order.types[$0])")
                         }
@@ -40,6 +40,12 @@ struct ContentView: View {
                         }
                     }
                     
+                }
+                Section{
+                    NavigationLink(destination: AddressView(order: self.order)) {
+                        Text("Delivery details")
+                    }
+                   
                 }
                 
             }
