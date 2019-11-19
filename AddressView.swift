@@ -12,7 +12,9 @@ struct AddressView: View {
     @ObservedObject var order: Order
     
     var hasInvalidAddress: Bool {
-        if order.name.isEmpty || order.Address.isEmpty || order.city.isEmpty || order.zip.isEmpty {
+        let name = order.name.trimmingCharacters(in: .whitespacesAndNewlines) , address = order.Address.trimmingCharacters(in: .whitespacesAndNewlines) , city = order.city.trimmingCharacters(in: .whitespacesAndNewlines) , zip = order.zip.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if name.isEmpty || address.isEmpty || city.isEmpty || zip.isEmpty {
             return true
         }
         
