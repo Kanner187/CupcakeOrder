@@ -62,7 +62,7 @@ struct CheckOutView: View {
             }
             
             if let decodedOrder = try? JSONDecoder().decode(Order.self, from: data){
-                self.confirmationMessage = "Your order for \(self.order.quantity) x \(Order.types[decodedOrder.type].lowercased()) will be delivered soon!"
+                self.confirmationMessage = "Your order for \(self.order.quantity)x \(Order.types[decodedOrder.type].lowercased()) cupcakes will be delivered soon!"
                 self.showingAlert = true
             }else{
                 print("Invalid response from server")
