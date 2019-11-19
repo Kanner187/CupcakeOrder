@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CheckOutView: View {
     @ObservedObject var order: Order
+    @State private var showingAlert = false
+    @State private var confirmationMessage = ""
     
     
     var body: some View {
@@ -35,6 +37,9 @@ struct CheckOutView: View {
             }
             .navigationBarTitle("Check Out", displayMode: .inline)
         }
+        .alert(isPresented: $showingAlert) { () -> Alert in
+            Alert(title: Text("confirmation"), message: Text(self.confirmationMessage), dismissButton: .default(Text("Okay")))
+        }
         
     }
     func placeOrder(){
@@ -51,8 +56,16 @@ struct CheckOutView: View {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else {
-                print("An error occurred: \(error?.localizedDescription ?? "Unknown error")")
+                self.confirmationMessage = "An error occurred: \(error?.localizedDescription ?? "Unknown error")"
+                self.showingAlert = true
                 return
+            }
+            
+            if let decodedOrder = try? JSONDecoder().decode(Order.self, from: data){
+                self.confirmationMessage = "Your order for \(self.order.quantity) x \(Order.types[decodedOrder.type].lowercased()) will be delivered soon!"
+                self.showingAlert = true
+            }else{
+                print("Invalid response from server")
             }
             
         }.resume()
