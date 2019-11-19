@@ -12,7 +12,7 @@ struct AddressView: View {
     @ObservedObject var order: Order
     
     var hasInvalidAddress: Bool {
-        let name = order.name.trimmingCharacters(in: .whitespacesAndNewlines) , address = order.Address.trimmingCharacters(in: .whitespacesAndNewlines) , city = order.city.trimmingCharacters(in: .whitespacesAndNewlines) , zip = order.zip.trimmingCharacters(in: .whitespacesAndNewlines)
+        let name = order.cake.name.trimmingCharacters(in: .whitespacesAndNewlines) , address = order.cake.Address.trimmingCharacters(in: .whitespacesAndNewlines) , city = order.cake.city.trimmingCharacters(in: .whitespacesAndNewlines) , zip = order.cake.zip.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if name.isEmpty || address.isEmpty || city.isEmpty || zip.isEmpty {
             return true
@@ -24,16 +24,16 @@ struct AddressView: View {
     var body: some View {
         Form{
             Section(header:Text("Name")){
-                TextField("Enter name", text: $order.name)
+                TextField("Enter name", text: $order.cake.name)
             }
             Section(header: Text("Address")){
-                TextField("Enter Address", text: $order.Address)
+                TextField("Enter Address", text: $order.cake.Address)
             }
             Section(header: Text("City")){
-                TextField("Enter city", text: $order.city)
+                TextField("Enter city", text: $order.cake.city)
             }
             Section(header: Text("Zip").font(.subheadline)){
-                TextField("Enter zip code", text: $order.zip)
+                TextField("Enter zip code", text: $order.cake.zip)
             }
             
             Section{
