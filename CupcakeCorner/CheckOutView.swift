@@ -26,7 +26,7 @@ struct CheckOutView: View {
                         .font(.title)
                         .padding()
                     Button(action:{
-                        
+                        self.placeOrder()
                     }){
                         Text("Place Order")
                     }
@@ -35,6 +35,27 @@ struct CheckOutView: View {
             }
             .navigationBarTitle("Check Out", displayMode: .inline)
         }
+        
+    }
+    func placeOrder(){
+        guard let data = try? JSONEncoder().encode(order) else {
+            print("Encoding of data failed")
+            return
+        }
+        //Configuring network request
+        let url = URL(string: "https://reqres.in/api/cupcakes")!
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = data
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            guard let data = data else {
+                print("An error occurred: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+        }.resume()
         
     }
 }
