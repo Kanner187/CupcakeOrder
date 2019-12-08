@@ -21,7 +21,8 @@ struct CheckOutView: View {
                     Image("cupcakes")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: geometry.size.width)
+                        .frame(width: geometry.size.width)
+                        .accessibility(hidden: true)
                     
                     
                     Text("Your total cost is $\(self.order.cake.cost , specifier: "%.2f")")
